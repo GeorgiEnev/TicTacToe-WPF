@@ -1,0 +1,406 @@
+﻿<Window x:Class="TicTacToe.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TicTacToe"
+        mc:Ignorable="d"
+        Title="TicTacToe" Height="450" 
+        Width="800"
+        Icon="Assets/Icon2.ico"
+		WindowStyle="None"
+        WindowState="Maximized"
+        ResizeMode="NoResize"
+        FontFamily="Segoe UI Light"
+        Background="{StaticResource BackgroundColor}"
+        WindowStartupLocation="CenterScreen"
+        Focusable="True"
+        FocusVisualStyle="{x:Null}">
+
+    <Window.Resources>
+        <!-- Existing DropShadowEffect -->
+        <DropShadowEffect x:Key="DropShadowEffect"
+                      Color="#FF03DAC5"
+                      BlurRadius="15"
+                      ShadowDepth="0"
+                      Opacity="0.7"/>
+
+        <!-- ✨ Animated Game Button Style -->
+        <Style x:Key="AnimatedButtonStyle" TargetType="Button">
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="#FF03DAC5"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                        CornerRadius="8" 
+                        Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)" To="1.1" Duration="0:0:0.1"/>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)" To="1.1" Duration="0:0:0.1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)" To="1.0" Duration="0:0:0.1"/>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)" To="1.0" Duration="0:0:0.1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="0.95" ScaleY="0.95" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+
+    <Grid>
+		<!-- Start Screen -->
+		<Grid x:Name="StartScreen" Visibility="Visible" >
+			<Grid.Background>
+				<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+					<GradientStop Color="#2A2D4D" Offset="0"/>
+					<GradientStop Color="#1A1D3D" Offset="1"/>
+				</LinearGradientBrush>
+			</Grid.Background>
+
+			<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+				<TextBlock x:Name="TextBlock" 
+                           Text="TIC TAC TOE" 
+                           FontSize="60" 
+                           FontWeight="Bold" 
+                           Foreground="#FF03DAC5"
+                           Margin="0,0,0,30"
+                           RenderTransformOrigin="0.5,0.5">
+					<TextBlock.RenderTransform>
+						<ScaleTransform ScaleX="1" ScaleY="1"/>
+					</TextBlock.RenderTransform>
+					<TextBlock.Effect>
+						<DropShadowEffect Color="#FF03DAC5" BlurRadius="15" ShadowDepth="0"/>
+					</TextBlock.Effect>
+				</TextBlock>
+
+				<Button x:Name="StartButton" 
+                        Content="START GAME" 
+                        Style="{StaticResource AnimatedButtonStyle}" 
+                        Width="250" 
+                        Height="70" 
+                        FontSize="30"
+                        Background="{StaticResource ButtonColor}"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Margin="0,20"
+                        Click="StartButton_Click">
+					<Button.RenderTransform>
+						<ScaleTransform ScaleX="1" ScaleY="1"/>
+					</Button.RenderTransform>
+					<Button.Effect>
+						<DropShadowEffect Color="#FF03DAC5" BlurRadius="10" ShadowDepth="0"/>
+					</Button.Effect>
+				</Button>
+			</StackPanel>
+		</Grid>
+
+		<!-- Pause Menu -->
+		<Grid x:Name="PauseMenu" Visibility="Collapsed" Panel.ZIndex="1000">
+			<Border Background="#AA000000" CornerRadius="10" Width="400" Height="200">
+				<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+					<TextBlock Text="Game Paused" 
+                           FontSize="28" 
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
+
+					<Button x:Name="ResumeButton" 
+                        Content="Continue Game" 
+                        Style="{StaticResource AnimatedButtonStyle}"
+                        Effect="{StaticResource DropShadowEffect}"
+                        Width="200"
+                        Margin="0,0,0,10"
+                        Click="ResumeButton_Click"/>
+
+					<Button x:Name="ExitButton" 
+                        Content="EXIT"
+                        Style="{StaticResource AnimatedButtonStyle}"
+                        Effect="{StaticResource DropShadowEffect}"
+                        Width="200"
+                        Click="ExitButton_Click"/>
+
+				</StackPanel>
+			</Border>
+		</Grid>
+
+		<Grid x:Name="GameContent" Visibility="Collapsed">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<!-- Scoreboard -->
+				<ColumnDefinition Width="*"/>
+				<!-- Game content -->
+			</Grid.ColumnDefinitions>
+
+			<!-- Left-aligned Scoreboard -->
+            <Border Grid.Column="0"
+        Background="#2C2F4D"
+        CornerRadius="20"
+        Margin="30"
+        Padding="25"
+        VerticalAlignment="Center">
+
+                <StackPanel HorizontalAlignment="Center">
+
+                    <!-- Title -->
+                    <TextBlock Text="🏆 SCOREBOARD"
+                   FontSize="28"
+                   FontWeight="Bold"
+                   Foreground="#FF03DAC5"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,25"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap"/>
+
+                    <!-- Player Score Card -->
+                    <Border Background="#1E1F33"
+                CornerRadius="12"
+                Padding="12"
+                Margin="0,0,0,15"
+                BorderBrush="#FF4CAF50"
+                BorderThickness="2">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Image Source="/Assets/X15.png" Height="45" Margin="0,0,12,0"/>
+                            <StackPanel>
+                                <TextBlock Text="YOU"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="White"/>
+                                <TextBlock x:Name="PlayerWinsText"
+                               Text="0"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="#FF4CAF50"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Bot Score Card -->
+                    <Border Background="#1E1F33"
+                CornerRadius="12"
+                Padding="12"
+                Margin="0,0,0,25"
+                BorderBrush="#FFF44336"
+                BorderThickness="2">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Image Source="/Assets/O15.png" Height="45" Margin="0,0,12,0"/>
+                            <StackPanel>
+                                <TextBlock Text="BOT"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="White"/>
+                                <TextBlock x:Name="BotWinsText"
+                               Text="0"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="#FFF44336"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+					<!-- Tie Score Card -->
+					<Border Background="#1E1F33"
+							CornerRadius="12"
+							Padding="12"
+							Margin="0,0,0,25"
+							BorderBrush="#FF9E9E9E"
+							BorderThickness="2"
+							Effect="{StaticResource DropShadowEffect}">
+
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<!-- Optional: Use an icon or remove the Image element entirely -->
+							<Image Source="/Assets/TieIcon.png"
+								   Height="45"
+								   Margin="0,0,12,0"
+								   Visibility="Collapsed"/>
+
+							<StackPanel>
+								<TextBlock Text="TIES"
+										   FontSize="20"
+										   FontWeight="Bold"
+										   Foreground="White"
+										   Margin="0,0,0,4"/>
+								<TextBlock x:Name="TieText"
+										   Text="0"
+										   FontSize="24"
+										   FontWeight="Bold"
+										   Foreground="#FF9E9E9E"/>
+							</StackPanel>
+						</StackPanel>
+					</Border>
+					
+                    <!-- Reset Button -->
+                    <Button x:Name="ResetScoresButton"
+                Content="Reset Scores"
+                Style="{StaticResource AnimatedButtonStyle}" 
+                FontSize="20"
+                Background="{StaticResource ButtonColor}"
+                Foreground="White"
+                Padding="10,6"
+                BorderThickness="0"
+                Width="160"
+                HorizontalAlignment="Center"
+                Click="ResetScoresButton_Click"
+                Effect="{StaticResource DropShadowEffect}">
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <Viewbox Grid.Column="1">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="*"/>
+					</Grid.RowDefinitions>
+
+					<StackPanel x:Name="TurnPanel"
+                           Orientation="Horizontal"
+                           HorizontalAlignment="Center">
+						<TextBlock FontSize="54"
+                              Text="Player: "
+                              Margin="0,0,0,15"
+                               Foreground="#EF5252"/>
+						<Image x:Name="PlayerImage" Source="Assets/X15.png"
+                           Height="75"/>
+					</StackPanel>
+
+					<Canvas x:Name="GameCanvas"
+                        Grid.Row="1"
+                        Width="300"
+                        Height="300"
+                        Margin="20">
+						<UniformGrid x:Name="GameGrid" 
+                                     Width="300"
+                                     Height="300"
+                                     Rows="3"
+                                     Columns="3"
+                                     MouseDown="GameGrid_MouseDown">
+							<UniformGrid.Background>
+								<ImageBrush ImageSource="/Assets/Grid.png"/>
+							</UniformGrid.Background>
+						</UniformGrid>
+						<Line x:Name="Line" Stroke="{StaticResource LineColor}" 
+                              StrokeThickness="10" 
+                              StrokeStartLineCap="Round"
+                              StrokeEndLineCap="Round"
+                              Visibility="Hidden"/>
+					</Canvas>
+
+					<Grid x:Name="EndScreeen"
+                          Grid.RowSpan="2"
+                          Background="{StaticResource BackgroundColor}"
+                          Visibility="Hidden">
+						<StackPanel Orientation="Vertical"
+                                   VerticalAlignment="Center">
+							<StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center">
+								<TextBlock x:Name="ResultText"
+                                           FontSize="54"
+                                           Text="Winner: "
+                                           Margin="0,0,15,0"
+                                       Foreground="#EF5252"/>
+								<Image x:Name="WinnerImage"
+                                       Height="75"
+                                       Source="/Assets/X15.png"/>
+							</StackPanel>
+							<Button Content="Play Again"
+                                    Background="{StaticResource ButtonColor}"
+                                    FontSize="34"
+                                    Width="200"
+                                    Margin="0,20,0,0"
+                                    Padding="0,0,0,5"
+                                    Click="Button_Click"/>
+						</StackPanel>
+					</Grid>
+				</Grid>
+			</Viewbox>
+		</Grid>
+        <Border HorizontalAlignment="Right"
+        VerticalAlignment="Top"
+        Margin="20"
+        Background="#1E1E2F"
+        CornerRadius="12"
+        Padding="12">
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+
+                <!-- Toggle Music -->
+                <ToggleButton x:Name="MusicToggle"
+                      Width="40"
+                      Height="40"
+                      IsChecked="True"
+                      Click="MusicToggle_Click"
+                      Background="#FF03DAC5"
+                      Foreground="Black"
+                      FontSize="16"
+                      BorderThickness="0"
+                      ToolTip="Toggle Music"
+                      Margin="0,0,10,0"
+                      Cursor="Hand">
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Content" Value="🔇"/>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Content" Value="🔊"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+
+                <!-- Volume Slider -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text=""
+                       VerticalAlignment="Center"
+                       Foreground="White"
+                       FontSize="16"
+                       Margin="0,0,6,0"/>
+                    <Slider x:Name="VolumeSlider"
+                    Minimum="0"
+                    Maximum="1"
+                    Value="0.5"
+                    Width="100"
+                    TickFrequency="0.1"
+                    SmallChange="0.05"
+                    LargeChange="0.1"
+                    IsSnapToTickEnabled="True"
+                    ValueChanged="VolumeSlider_ValueChanged"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</Window>
