@@ -41,7 +41,11 @@ The bot is designed to offer an engaging experience by mixing logic with occasio
 - Prioritizes winning moves and blocking the player
 - Occasionally misses a best move to feel more realistic
 - Random move fallback when no strategic action is needed
+  
+---
+🎮 **Download the Game**
 
+👉 [Download TicTacToe - Windows Build (.zip)](https://mega.nz/file/WNUklKSK#Wrwvmoa-HVcSevX4VOD1mxP62gQ0cxNyDEK1UTAp3U0)
 ---
 
 ## License
