@@ -45,7 +45,7 @@ The bot is designed to offer an engaging experience by mixing logic with occasio
 ---
 🎮 **Download the Game**
 
-👉 [Download TicTacToe - Windows Build (.zip)](https://mega.nz/file/WNUklKSK#Wrwvmoa-HVcSevX4VOD1mxP62gQ0cxNyDEK1UTAp3U0)
+👉 [Download TicTacToe - Windows Build (.zip)](https://mega.nz/file/vU9DEZKL#8zBuqlFJ3PmQ9Ku78OiJy9TBWR5Gy3Im2IbNNltmVII) 
 ---
 
 ## License
