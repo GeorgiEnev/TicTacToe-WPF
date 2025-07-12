@@ -214,13 +214,15 @@ namespace TicTacToe
             imageControls[row, col].BeginAnimation(Image.SourceProperty, animations[player]);
             PlayerImage.Source = imageSources[gameState.CurrentPlayer];
 
-            // Trigger bot move if it's their turn
+            // Only trigger bot if it's the bot's turn and the game is not over
             if (!gameState.GameOver && gameState.CurrentPlayer == Player.O)
             {
                 Dispatcher.InvokeAsync(async () =>
                 {
-                    await Task.Delay(500); // Small delay for better UX
-                    gameState.Bot.MakeMove();
+                    await Task.Delay(500);
+                    // Double-check before making the move
+                    if (!gameState.GameOver && gameState.CurrentPlayer == Player.O)
+                        gameState.Bot.MakeMove();
                 });
             }
         }
@@ -269,12 +271,15 @@ namespace TicTacToe
                 _ = Dispatcher.InvokeAsync(async () =>
                 {
                     await Task.Delay(500);
-                    gameState.Bot.MakeMove();
+                    // Double-check before making the move
+                    if (!gameState.GameOver && gameState.CurrentPlayer == Player.O)
+                        gameState.Bot.MakeMove();
                 });
             }
         }
         private void GameGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            // Only allow player to move if it's their turn and the game is not over
             if (gameState.GameOver || gameState.CurrentPlayer != Player.X)
                 return;
 
@@ -376,8 +381,10 @@ namespace TicTacToe
 
             if (gameState.CurrentPlayer == Player.O)
             {
-                await Task.Delay(500); 
-                gameState.Bot.MakeMove();
+                await Task.Delay(500);
+                // Double-check before making the move
+                if (!gameState.GameOver && gameState.CurrentPlayer == Player.O)
+                    gameState.Bot.MakeMove();
             }
 
         }
