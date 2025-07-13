@@ -20,7 +20,7 @@ A modern TicTacToe game built with C# and WPF. Featuring glowing UI effects, bac
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/TicTacToe-WPF.git
+   git clone https://github.com/GeorgiEnev/TicTacToe-WPF.git
    ```
 
 2. Open the solution in Visual Studio
