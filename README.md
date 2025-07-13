@@ -41,7 +41,10 @@ The bot is designed to offer an engaging experience by mixing logic with occasio
 - Prioritizes winning moves and blocking the player
 - Occasionally misses a best move to feel more realistic
 - Random move fallback when no strategic action is needed
-  
+---
+## 🎥 Gameplay Preview
+![Gameplay Preview](https://github.com/GeorgiEnev/TicTacToe-WPF/blob/main/GIF.gif)
+
 ---
 🎮 **Download the Game**
 
