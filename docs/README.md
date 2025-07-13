@@ -43,7 +43,7 @@ The bot is designed to offer an engaging experience by mixing logic with occasio
 - Random move fallback when no strategic action is needed
 ---
 ## 🎥 Gameplay Preview
-![Gameplay Preview](https://github.com/GeorgiEnev/TicTacToe-WPF/blob/main/GIF.gif)
+![Gameplay Preview](https://github.com/GeorgiEnev/TicTacToe-WPF/blob/main/docs/GIF.gif)
 
 ---
 🎮 **Download the Game**
