@@ -16,6 +16,8 @@
         WindowStartupLocation="CenterScreen"
         Focusable="True"
         FocusVisualStyle="{x:Null}">
+    
+    
 
     <Window.Resources>
         <!-- Existing DropShadowEffect -->
@@ -75,6 +77,18 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <LinearGradientBrush x:Key="FancyGreenBorder" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#FF00FF00" Offset="0.0" />
+            <GradientStop Color="#FF00AA00" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <DropShadowEffect x:Key="SoftShadow"
+                  Color="Black"
+                  ShadowDepth="0"
+                  BlurRadius="30"
+                  Opacity="0.5"/>
+
     </Window.Resources>
 
 
@@ -294,7 +308,12 @@
                            Height="75"/>
 					</StackPanel>
 
-					<Canvas x:Name="GameCanvas"
+                   
+                    
+
+
+                    <!-- Game Canvas -->
+                    <Canvas x:Name="GameCanvas"
                         Grid.Row="1"
                         Width="300"
                         Height="300"
@@ -345,12 +364,13 @@
 				</Grid>
 			</Viewbox>
 		</Grid>
-        <Border HorizontalAlignment="Right"
-        VerticalAlignment="Top"
-        Margin="20"
-        Background="#1E1E2F"
-        CornerRadius="12"
-        Padding="12">
+        
+            <Border HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="20"
+            Background="#1E1E2F"
+            CornerRadius="12"
+            Padding="12">
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
 
@@ -401,6 +421,56 @@
                 </StackPanel>
             </StackPanel>
         </Border>
+        
+        <!-- ✅ Fullscreen Centered Overlay for Bot/Player Messages -->
+        <Grid x:Name="BotMessageOverlay"
+      Visibility="Collapsed"
+      Background="#66000000"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
+      Panel.ZIndex="999">
 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Row="1" Grid.Column="1"
+            Padding="50"
+            CornerRadius="25"
+            Background="#AA1E1E1E"
+            BorderThickness="2"
+            BorderBrush="{StaticResource FancyGreenBorder}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Effect="{StaticResource SoftShadow}">
+
+                <StackPanel>
+                    <TextBlock x:Name="BotMessageText"
+                       Text=""
+                       FontFamily="Consolas"
+                       FontSize="30"
+                       Foreground="White"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap"
+                       MaxWidth="800"
+                       Margin="0 0 0 10"/>
+
+                    <TextBlock Text="Press any key to continue..."
+                       FontFamily="Segoe UI"
+                       FontSize="14"
+                       Foreground="#88FFFFFF"
+                       TextAlignment="Center"
+                       Visibility="Collapsed"
+                       x:Name="ContinuePrompt"/>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

@@ -235,12 +235,43 @@ namespace TicTacToe
             {
                 await TransitionToEndScreen("It's a tie!", null);
             }
-            else
+            else if (gameResult.Winner == Player.O)
             {
                 await ShowLine(gameResult.WinInfo);
-                await Task.Delay(1000);
-                await TransitionToEndScreen($"Winner:", imageSources[gameResult.Winner]);
+                await Task.Delay(500);
+                
+                string[] botTaunts = new[]
+                {
+                        "Nice try, human.",
+                        "I calculated your defeat.",
+                        "Too easy!",
+                        "Better luck next time.",
+                        "Was that your best move?"
+                };
+                string message = botTaunts[new Random().Next(botTaunts.Length)];
+
+                await ShowBotMessageOverlay(message);
+                await TransitionToEndScreen("Winner:", imageSources[gameResult.Winner]);
             }
+            else if (gameResult.Winner == Player.X)
+            {
+                await ShowLine(gameResult.WinInfo);
+                await Task.Delay(500);
+                string[] winMessages = new[]
+                {
+                    "Victory is yours!",
+                    "You outplayed the machine!",
+                    "Well done, human. I underestimated you.",
+                    "Glorious win!",
+                    "Good Job!"
+                };
+
+                string congrats = winMessages[new Random().Next(winMessages.Length)];
+
+                await ShowBotMessageOverlay(congrats);
+                await TransitionToEndScreen("Winner:", imageSources[gameResult.Winner]);
+            }
+
         }
         private async void OnGameRestarted()
         {
@@ -446,6 +477,22 @@ namespace TicTacToe
                 App.BackgroundMusic.Volume = e.NewValue;
             }
         }
+
+        private async Task ShowBotMessageOverlay(string message)
+        {
+            BotMessageText.Text = "";
+            BotMessageOverlay.Visibility = Visibility.Visible;
+
+            foreach (char c in message)
+            {
+                BotMessageText.Text += c;
+                await Task.Delay(40); // Typing speed
+            }
+
+            await Task.Delay(1500); // Hold message before hiding
+            BotMessageOverlay.Visibility = Visibility.Collapsed;
+        }
+
 
     }
 }
