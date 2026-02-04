@@ -51,12 +51,6 @@ The bot is designed to offer an engaging experience by mixing logic with occasio
 👉 [Download TicTacToe - https://mega.nz/file/iYUDXZYR#vn-JI7hkivm_Y_inf92L6SnecF5DkMI_JJ08IZDn-wo) 
 ---
 
-## License
-
-This project is provided under the MIT License.  
-You may reuse the assets and code for personal and non-commercial projects.
-
----
 
 ## Author
 
